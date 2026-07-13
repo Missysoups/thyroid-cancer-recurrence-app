@@ -3,7 +3,7 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 
-df = pd.read_csv("Thyroid_Diff.csv")
+df = pd.read_csv(""C:\Users\audre\Downloads\differentiated+thyroid+cancer+recurrence\Thyroid_Diff.csv"")
 df.to_pickle("Thyroid_Diff.pkl")
 
 ## Load trained model
