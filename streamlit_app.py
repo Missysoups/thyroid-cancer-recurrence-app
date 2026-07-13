@@ -146,22 +146,22 @@ if st.button("Predict Thyroid Cancer Recurrence"):
 
     ## Convert input data to a DataFrame
     df_input = pd.DataFrame({
-        'age': [age],
-        'gender': [gender],
-        'smoking': [smoking],
-        'hx_smoking': [hx_smoking],
-        'hx_radiotherapy': [hx_radiotherapy],
-        'thyroid_function': [thyroid_function],
-        'physical_exam': [physical_exam],
-        'adenopathy': [adenopathy],
-        'pathology': [pathology],
-        'focality': [focality],
-        'risk': [risk],
-        't_stage': [t_stage],
-        'n_stage': [n_stage],
-        'm_stage': [m_stage],
-        'stage': [stage],
-        'response': [response]
+        'Age': [age],
+        'Gender': [gender],
+        'Smoking': [smoking],
+        'Hx Smoking': [hx_smoking],
+        'Hx Radiotherapy': [hx_radiotherapy],
+        'Thyroid Function': [thyroid_function],
+        'Physical Exam': [physical_exam],
+        'Adenopathy': [adenopathy],
+        'Pathology': [pathology],
+        'Focality': [focality],
+        'Risk': [risk],
+        'T': [t_stage],
+        'N': [n_stage],
+        'M': [m_stage],
+        'Stage': [stage],
+        'Response': [response]
     })
 
     ## One-hot encoding
