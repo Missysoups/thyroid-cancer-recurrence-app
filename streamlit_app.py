@@ -3,50 +3,187 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 
+df = pd.read_csv("Thyroid_Diff.csv")
+df.to_pickle("Thyroid_Diff.pkl")
+
 ## Load trained model
-model = joblib.load("hdb_dt_model.pkl")
+model = joblib.load("Thyroid_Diff_Model.pkl")
 
 ## Streamlit app
-st.title("HDB Resale Price Prediction")
+st.title("Thyroid Cancer Recurrence Prediction")
 
 ## Define the input options
-towns = ['Bedok', 'Punggol', 'Tampines']
-flat_types = ['2 ROOM', '3 ROOM', '4 ROOM', '5 ROOM']
-storey_ranges = ['01 TO 03', '04 TO 06', '07 TO 09']
+
+genders = ["M", "F"]
+
+smoking_options = ["Yes", "No"]
+
+hx_smoking_options = ["Yes", "No"]
+
+hx_radiotherapy_options = ["Yes", "No"]
+
+thyroid_functions = [
+    "Euthyroid",
+    "Clinical Hyperthyroidism",
+    "Clinical Hypothyroidism",
+    "Subclinical Hyperthyroidism",
+    "Subclinical Hypothyroidism"
+]
+
+physical_exams = [
+    "Normal",
+    "Single nodular goiter-left",
+    "Single nodular goiter-right",
+    "Multinodular goiter",
+    "Diffuse goiter"
+]
+
+adenopathy_options = [
+    "No",
+    "Right",
+    "Left",
+    "Bilateral",
+    "Posterior"
+]
+
+pathology_options = [
+    "Micropapillary",
+    "Papillary",
+    "Follicular",
+    "Hurthel cell"
+]
+
+focality_options = [
+    "Uni-Focal",
+    "Multi-Focal"
+]
+
+risk_options = [
+    "Low",
+    "Intermediate",
+    "High"
+]
+
+t_stages = [
+    "T1a", "T1b", "T2", "T3a", "T3b", "T4a", "T4b"
+]
+
+n_stages = [
+    "N0", "N1a", "N1b"
+]
+
+m_stages = [
+    "M0", "M1"
+]
+
+stages = [
+    "I", "II", "III", "IVA", "IVB"
+]
+
+responses = [
+    "Excellent",
+    "Indeterminate",
+    "Structural Incomplete",
+    "Biochemical Incomplete"
+]
 
 
 ## User inputs
-town_selected = st.selectbox("Select Town", towns)
-flat_type_selected = st.selectbox("Select Flat Type", flat_types)
-storey_range_selected = st.selectbox("Select Storey", storey_ranges)
-floor_area_selected = st.slider("Select Floor Area (sqm)", 
-                                min_value=30, 
-                                max_value=200, 
-                                value=70)
+age = st.slider("Age", 15, 100, 40)
+
+gender = st.selectbox("Gender", genders)
+
+smoking = st.selectbox("Smoking", smoking_options)
+
+hx_smoking = st.selectbox("History of Smoking", hx_smoking_options)
+
+hx_radiotherapy = st.selectbox("History of Radiotherapy", hx_radiotherapy_options)
+
+thyroid_function = st.selectbox("Thyroid Function", thyroid_functions)
+
+physical_exam = st.selectbox("Physical Examination", physical_exams)
+
+adenopathy = st.selectbox("Adenopathy", adenopathy_options)
+
+pathology = st.selectbox("Pathology", pathology_options)
+
+focality = st.selectbox("Focality", focality_options)
+
+risk = st.selectbox("Risk", risk_options)
+
+t_stage = st.selectbox("T Stage", t_stages)
+
+n_stage = st.selectbox("N Stage", n_stages)
+
+m_stage = st.selectbox("M Stage", m_stages)
+
+stage = st.selectbox("Cancer Stage", stages)
+
+response = st.selectbox("Response", responses)
 
 ## Predict button
-if st.button("Predict HDB price"):
+if st.button("Predict Thyroid Cancer Recurrence"):
 
     ## Create dict for input features
     input_data = {
-        'town': town_selected,
-        'flat_type': flat_type_selected,
-        'storey_range': storey_range_selected,
-        'floor_area': floor_area_selected
+        'age': age,
+        'gender': gender,
+        'smoking': smoking,
+        'hx_smoking': hx_smoking,
+        'hx_radiotherapy': hx_radiotherapy,
+        'thyroid_function': thyroid_function,
+        'physical_exam': physical_exam,
+        'adenopathy': adenopathy,
+        'pathology': pathology,
+        'focality': focality,
+        'risk': risk,
+        't_stage': t_stage,
+        'n_stage': n_stage,
+        'm_stage': m_stage,
+        'stage': stage,
+        'response': response
     }
 
     ## Convert input data to a DataFrame
     df_input = pd.DataFrame({
-        'town': [town_selected],
-        'flat_type': [flat_type_selected],
-        'storey_range': [storey_range_selected],
-        'floor_area': [floor_area_selected]
+        'age': [age],
+        'gender': [gender],
+        'smoking': [smoking],
+        'hx_smoking': [hx_smoking],
+        'hx_radiotherapy': [hx_radiotherapy],
+        'thyroid_function': [thyroid_function],
+        'physical_exam': [physical_exam],
+        'adenopathy': [adenopathy],
+        'pathology': [pathology],
+        'focality': [focality],
+        'risk': [risk],
+        't_stage': [t_stage],
+        'n_stage': [n_stage],
+        'm_stage': [m_stage],
+        'stage': [stage],
+        'response': [response]
     })
 
     ## One-hot encoding
-    df_input = pd.get_dummies(df_input, 
-                              columns = ['town', 'flat_type', 'storey_range']
-                             )
+    df_input = pd.get_dummies(
+        df_input, columns=[
+            'Gender',
+            'Smoking',
+            'Hx Smoking',
+            'Hx Radiothreapy',
+            'Thyroid Function',
+            'Physical Examination',
+            'Adenopathy',
+            'Pathology',
+            'Focality',
+            'Risk',
+            'T',
+            'N',
+            'M',
+            'Stage',
+            'Response'
+        ]
+    )
     
     # df_input = df_input.to_numpy()
 
@@ -57,7 +194,7 @@ if st.button("Predict HDB price"):
 
     ## Predict
     y_unseen_pred = model.predict(df_input)[0]
-    st.success(f"Predicted Resale Price: ${y_unseen_pred:,.2f}")
+    st.success(f"Predicted Thyroid Cancer Recurrence: {y_unseen_pred}")
 
 ## Page design
 st.markdown(
