@@ -7,7 +7,7 @@ df = pd.read_csv("Thyroid_Diff.csv")
 df.to_pickle("Thyroid_Diff.pkl")
 
 ## Load trained model
-model = joblib.load("Thyroid_Diff_Model.pkl")
+model = joblib.load("Thyroid_Diff.pkl")
 
 ## Streamlit app
 st.title("Thyroid Cancer Recurrence Prediction")
