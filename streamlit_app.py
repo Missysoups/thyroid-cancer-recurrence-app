@@ -13,8 +13,6 @@ model_path = os.path.join(
 model = joblib.load(model_path)
 
 ## Check that the correct model was loaded
-st.write("Loaded model:", type(model))
-
 if not hasattr(model, "predict"):
     st.error("The uploaded PKL file is not a trained scikit-learn model.")
     st.stop()
