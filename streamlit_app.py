@@ -34,13 +34,14 @@ st.markdown(
     /* Main background */
     .stApp {
         background-image:
-        linear-gradient(rgba(255,255,255,0.90), rgba(255,255,255,0.90)),
+        linear-gradient(rgba(15, 15, 25, 0.92), rgba(15, 15, 25, 0.92)),
         url("https://i.pinimg.com/1200x/4b/45/f0/4b45f0cf396f804a1c49a3a118457a9c.jpg");
 
         background-size: cover;
         background-position: center;
         background-attachment: fixed;
     }
+
 
     /* Main title */
     .main-title {
