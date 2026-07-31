@@ -158,7 +158,7 @@ st.markdown(
     f"""
     <style>
     .stApp {{
-        background: url("https://www.shutterstock.com/shutterstock/videos/1025418011/thumb/1.jpg");
+        background: url("https://i.pinimg.com/1200x/4b/45/f0/4b45f0cf396f804a1c49a3a118457a9c.jpg");
         background-size: cover
     }}
     </style>
