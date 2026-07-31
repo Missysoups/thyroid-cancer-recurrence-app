@@ -1,24 +1,28 @@
+import os
 import joblib
 import streamlit as st
 import numpy as np
 import pandas as pd
 
-df = pd.read_csv("Thyroid_Diff.csv")
-df.to_pickle("Thyroid_Diff.pkl")
+## Load the trained model
+model_path = os.path.join(
+    os.path.dirname(__file__),
+    "Thyroid_Diff_Model.pkl"
+)
 
-## Load trained model
-model = joblib.load("Thyroid_Diff.pkl")
+model = joblib.load(model_path)
+
+## Check that the correct model was loaded
+st.write("Loaded model:", type(model))
+
+if not hasattr(model, "predict"):
+    st.error("The uploaded PKL file is not a trained scikit-learn model.")
+    st.stop()
 
 ## Streamlit app
 st.title("Thyroid Cancer Recurrence Prediction")
 
 ## Define the input options
-
-genders = ["M", "F"]
-
-smoking_options = ["Yes", "No"]
-
-hx_smoking_options = ["Yes", "No"]
 
 hx_radiotherapy_options = ["Yes", "No"]
 
@@ -42,8 +46,8 @@ adenopathy_options = [
     "No",
     "Right",
     "Left",
-    "Bilateral",
-    "Posterior"
+    "Posterior",
+    "Extensive"
 ]
 
 pathology_options = [
@@ -76,10 +80,6 @@ m_stages = [
     "M0", "M1"
 ]
 
-stages = [
-    "I", "II", "III", "IVA", "IVB"
-]
-
 responses = [
     "Excellent",
     "Indeterminate",
@@ -90,12 +90,6 @@ responses = [
 
 ## User inputs
 age = st.slider("Age", 15, 100, 40)
-
-gender = st.selectbox("Gender", genders)
-
-smoking = st.selectbox("Smoking", smoking_options)
-
-hx_smoking = st.selectbox("History of Smoking", hx_smoking_options)
 
 hx_radiotherapy = st.selectbox("History of Radiotherapy", hx_radiotherapy_options)
 
@@ -117,42 +111,16 @@ n_stage = st.selectbox("N Stage", n_stages)
 
 m_stage = st.selectbox("M Stage", m_stages)
 
-stage = st.selectbox("Cancer Stage", stages)
-
 response = st.selectbox("Response", responses)
 
 ## Predict button
 if st.button("Predict Thyroid Cancer Recurrence"):
 
-    ## Create dict for input features
-    input_data = {
-        'age': age,
-        'gender': gender,
-        'smoking': smoking,
-        'hx_smoking': hx_smoking,
-        'hx_radiotherapy': hx_radiotherapy,
-        'thyroid_function': thyroid_function,
-        'physical_exam': physical_exam,
-        'adenopathy': adenopathy,
-        'pathology': pathology,
-        'focality': focality,
-        'risk': risk,
-        't_stage': t_stage,
-        'n_stage': n_stage,
-        'm_stage': m_stage,
-        'stage': stage,
-        'response': response
-    }
-
-    ## Convert input data to a DataFrame
     df_input = pd.DataFrame({
         'Age': [age],
-        'Gender': [gender],
-        'Smoking': [smoking],
-        'Hx Smoking': [hx_smoking],
-        'Hx Radiotherapy': [hx_radiotherapy],
+        'Hx Radiothreapy': [hx_radiotherapy],
         'Thyroid Function': [thyroid_function],
-        'Physical Exam': [physical_exam],
+        'Physical Examination': [physical_exam],
         'Adenopathy': [adenopathy],
         'Pathology': [pathology],
         'Focality': [focality],
@@ -160,41 +128,24 @@ if st.button("Predict Thyroid Cancer Recurrence"):
         'T': [t_stage],
         'N': [n_stage],
         'M': [m_stage],
-        'Stage': [stage],
         'Response': [response]
     })
 
-    ## One-hot encoding
-    df_input = pd.get_dummies(
-        df_input, columns=[
-            'Gender',
-            'Smoking',
-            'Hx Smoking',
-            'Hx Radiotherapy',
-            'Thyroid Function',
-            'Physical Exam',
-            'Adenopathy',
-            'Pathology',
-            'Focality',
-            'Risk',
-            'T',
-            'N',
-            'M',
-            'Stage',
-            'Response'
-        ]
+    # One-hot encoding
+    df_input = pd.get_dummies(df_input)
+
+    # Make the input columns exactly match the trained model
+    df_input = df_input.reindex(
+        columns=model.feature_names_in_,
+        fill_value=0
     )
-    
-    # df_input = df_input.to_numpy()
 
-    df_input = df_input.reindex(columns = model.feature_names_in_,
-                                fill_value=0)
+    # Make prediction
+    prediction = model.predict(df_input)[0]
 
-
-
-    ## Predict
-    y_unseen_pred = model.predict(df_input)[0]
-    st.success(f"Predicted Thyroid Cancer Recurrence: {y_unseen_pred}")
+    st.success(
+        f"Predicted Thyroid Cancer Recurrence: {prediction}"
+    )
 
 ## Page design
 st.markdown(
