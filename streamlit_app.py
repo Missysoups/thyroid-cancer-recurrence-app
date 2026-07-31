@@ -31,68 +31,7 @@ st.markdown(
     """
     <style>
 
-## Website Background
-    .stApp {
-        background-image:
-        url("https://i.pinimg.com/1200x/4b/45/f0/4b45f0cf396f804a1c49a3a118457a9c.jpg");
-
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed;
     }
-
-## Title
-    .main-title {
-        text-align: center;
-        font-size: 42px;
-        font-weight: bold;
-        margin-bottom: 5px;
-    }
-
-## Subtitle
-    .subtitle {
-        text-align: center;
-        font-size: 18px;
-        margin-bottom: 30px;
-    }
-
-##  Headers
-    .section-title {
-        font-size: 24px;
-        font-weight: bold;
-        margin-top: 15px;
-        margin-bottom: 10px;
-    }
-
-## Result box
-    .result-box {
-        padding: 25px;
-        border-radius: 15px;
-        text-align: center;
-        background-color: white;
-        margin-top: 20px;
-        box-shadow: 0px 4px 15px rgba(0,0,0,0.15);
-    }
-
-    .result-title {
-        font-size: 20px;
-        font-weight: bold;
-    }
-
-    .result-value {
-        font-size: 40px;
-        font-weight: bold;
-        margin-top: 10px;
-    }
-
-## Information box
-    .info-box {
-        padding: 15px;
-        border-radius: 10px;
-        background-color: rgba(255,255,255,0.9);
-        margin-bottom: 20px;
-    }
-
     </style>
     """,
     unsafe_allow_html=True
