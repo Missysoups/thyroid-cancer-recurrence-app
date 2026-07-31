@@ -140,11 +140,17 @@ if st.button("Predict Thyroid Cancer Recurrence"):
         fill_value=0
     )
 
-    # Make prediction
+    ## Make prediction
     prediction = model.predict(df_input)[0]
 
+    ## Convert prediction to Yes or No
+    if prediction == "Yes" or prediction == "Y" or prediction == 1:
+        result = "Yes"
+    else:
+        result = "No"
+
     st.success(
-        f"Predicted Thyroid Cancer Recurrence: {prediction}"
+        f"Predicted Thyroid Cancer Recurrence: {result}"
     )
 
 ## Page design
