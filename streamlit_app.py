@@ -31,10 +31,9 @@ st.markdown(
     """
     <style>
 
-    /* Main background */
+## Website Background
     .stApp {
         background-image:
-        linear-gradient(rgba(255,255,255,0.90), rgba(255,255,255,0.90)),
         url("https://i.pinimg.com/1200x/4b/45/f0/4b45f0cf396f804a1c49a3a118457a9c.jpg");
 
         background-size: cover;
@@ -42,7 +41,7 @@ st.markdown(
         background-attachment: fixed;
     }
 
-    /* Main title */
+## Title
     .main-title {
         text-align: center;
         font-size: 42px;
@@ -50,14 +49,14 @@ st.markdown(
         margin-bottom: 5px;
     }
 
-    /* Subtitle */
+## Subtitle
     .subtitle {
         text-align: center;
         font-size: 18px;
         margin-bottom: 30px;
     }
 
-    /* Section headers */
+##  Headers
     .section-title {
         font-size: 24px;
         font-weight: bold;
@@ -65,7 +64,7 @@ st.markdown(
         margin-bottom: 10px;
     }
 
-    /* Result box */
+## Result box
     .result-box {
         padding: 25px;
         border-radius: 15px;
@@ -86,7 +85,7 @@ st.markdown(
         margin-top: 10px;
     }
 
-    /* Information box */
+## Information box
     .info-box {
         padding: 15px;
         border-radius: 10px;
